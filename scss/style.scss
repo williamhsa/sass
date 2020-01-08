@@ -1,0 +1,13 @@
+@import "colors";  // joga no style.css na ordem das importações;
+@import "buttons";
+
+$preto: #999;
+
+div {
+  background: $preto;
+  height: 200px;
+  width: 200px;
+  a {
+    color: red;
+  }
+}
