@@ -1,0 +1,178 @@
+/* 
+include chapters:
+  - nesting
+  - mixins
+
+*/
+%clearfix::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+div {
+  @extend %clearfix;
+}
+
+section {
+  @extend %clearfix;
+}
+
+.erro {
+  color: red;
+  font-weight: bold;
+}
+
+.button-erro {
+  @extend .erro;
+  padding: 20px;
+  width: 200px;
+}
+
+// operadores
+$distance: 20px;
+
+div {
+  $width: 400px;
+  width: $width - 2 * $distance;
+  padding: $distance;
+  height: $width / 2;
+  // background: #333 + #777; só pra saber que existe soma de cores
+}
+
+p {
+  font-size: 10px + 10;
+  width: 400px - 40;
+}
+
+
+@mixin title-large {
+  font: { // nesting properties
+    size: 4em;
+    weight: bold;
+    family: monospace;
+  }
+  line-height: 1;
+}
+
+@mixin borde-box {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+// mixin com valor padrao, caso nao utilize os parametros
+@mixin separador($color: blue, $largura: 100px) {
+  &::after {
+    content: '';
+    display: block;
+    width: $largura;
+    height: 4px;
+    background: $color;
+  }
+}
+
+// mais de um argumento
+@mixin box-shadow($shadow...) {
+  box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  -webkit-box-shadow: $shadow;
+}
+
+@mixin mobile {
+  @media (max-width: 600px) {
+    @content;
+  }
+}
+
+$cor-primaria: blue;
+$font-primaria: monospace;
+$gutter: 60px;
+
+
+section {
+	max-width: 600px;
+  margin: 0 auto;	
+  @include borde-box;
+}
+
+.modal {
+  @include box-shadow(10px 10px 0 0 rgba(0,0,0,.5),
+                      15px 15px 0 0 rgba(0,0,0,.5),
+                      20px 20px 0 0 rgba(0,0,0,.5),
+                    );
+
+  h1 {
+    color: $cor-primaria;
+    font-family: $font-primaria;
+    margin-bottom: $gutter;
+    @include title-large;
+    @include separador(blue, 200px);
+    @include mobile {   // mixin Content
+      color: green;
+      font-size: 2em;
+    }
+  }
+
+  p {
+    font: { // nesting de propriedades.
+      size: 1.2em;
+      family: $font-primaria;
+      style: italic;
+    }
+    line-height: 1.4;
+    max-width: 400px;
+    @include mobile {
+      font-size: .8em;
+    }
+  }
+
+  a {
+    display: block;
+    max-width: 120px;
+    padding: 10px;
+    border-radius: 4px;
+    text-align: center;
+    background: $cor-primaria;
+    color: white;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-family: $font-primaria;
+  }
+}
+
+ul {
+  text-align: center;
+
+  li {
+    display: inline-block;
+    list-style: none;
+
+    a {
+      display: block;
+      padding: 20px;
+      text-decoration: none;
+      background: blue;
+      color: white;
+      // .active & {  // joga o active lá pra frente de toda  seleção
+      //   background: blue;
+      // }
+
+      &:hover {
+        background: red;
+      }
+    }
+  }
+}
+
+
+
+
+/* 
+Comentários
+
+- Boa prática deixa no máximo 3 niveis de nesting, senão o codigo começa a ficar bagunçado.
+
+
+
+*/

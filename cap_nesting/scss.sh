@@ -1,0 +1,3 @@
+#!/bin/bash
+echo Processo iniciado...
+sass --watch scss/style.scss:css/style.css
