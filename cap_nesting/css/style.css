@@ -3,33 +3,96 @@
 include chapters:
   - nesting
   - mixins
+  - extends
+  - operators
+  - condicionals
 
 */
-section::after, div::after {
-  content: "";
+/* %clearfix::after {
+  content: '';
   display: table;
   clear: both;
 }
 
-.erro, .button-erro {
+div {
+  @extend %clearfix;
+}
+
+section {
+  @extend %clearfix;
+}
+
+.erro {
   color: red;
   font-weight: bold;
 }
 
 .button-erro {
+  @extend .erro;
   padding: 20px;
   width: 200px;
 }
 
+// operadores
+$distance: 20px;
+
 div {
-  width: 360px;
-  padding: 20px;
-  height: 200px;
+  $width: 400px;
+  width: $width - 2 * $distance;
+  padding: $distance;
+  height: $width / 2;
+  // background: #333 + #777; só pra saber que existe soma de cores
 }
 
 p {
-  font-size: 20px;
-  width: 360px;
+  font-size: 10px + 10;
+  width: 400px - 40;
+}
+ */
+/* // conditional
+$theme: ocean;
+$primary-color: black;  // se o theme estive com algo que não possui no if, sera colocado as cores definidas inicialmente nas variaveis
+$secondary-color: gray;
+
+@if $theme == ocean {
+  $primary-color: blue;
+  $secondary-color: orange;
+} @else if $theme == desert {
+  $primary-color: yellow;
+  $secondary-color: purple;
+}
+
+p {
+  color: $primary-color;
+  background: $secondary-color;
+} */
+div {
+  width: 33%;
+}
+
+p {
+  font-family: monospace;
+  font-weight: normal;
+  font-size: 1em;
+}
+
+div {
+  width: 100%;
+}
+@media (max-width: 600px) {
+  div {
+    width: 80%;
+  }
+}
+@media (max-width: 300px) {
+  div {
+    width: 60%;
+  }
+}
+
+div {
+  width: 400px;
+  height: 600px;
 }
 
 section {
@@ -98,6 +161,7 @@ ul {
 ul li {
   display: inline-block;
   list-style: none;
+  font-size: 2.25em;
 }
 ul li a {
   display: block;
@@ -105,9 +169,10 @@ ul li a {
   text-decoration: none;
   background: blue;
   color: white;
+  font-size: 0.4444444444em;
 }
 ul li a:hover {
-  background: red;
+  background: rgba(0, 0, 255, 0.5);
 }
 
 /* 

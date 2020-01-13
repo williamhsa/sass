@@ -2,9 +2,13 @@
 include chapters:
   - nesting
   - mixins
+  - extends
+  - operators
+  - condicionals
 
 */
-%clearfix::after {
+
+/* %clearfix::after {
   content: '';
   display: table;
   clear: both;
@@ -44,8 +48,94 @@ p {
   font-size: 10px + 10;
   width: 400px - 40;
 }
+ */
 
+/* // conditional
+$theme: ocean;
+$primary-color: black;  // se o theme estive com algo que não possui no if, sera colocado as cores definidas inicialmente nas variaveis
+$secondary-color: gray;
 
+@if $theme == ocean {
+  $primary-color: blue;
+  $secondary-color: orange;
+} @else if $theme == desert {
+  $primary-color: yellow;
+  $secondary-color: purple;
+}
+
+p {
+  color: $primary-color;
+  background: $secondary-color;
+} */
+
+@function grid($column, $total: 12) {
+  @return round(($column / $total) * 100%);
+}
+
+div {
+  width: grid(4);
+}
+
+@function em($pixels, $context: 16) {
+  @return ($pixels / $context) * 1em;
+}
+
+@mixin type-1($size) {
+  font-family: monospace;
+  font-weight: normal;
+
+  @if $size == 16 {
+    font-size: 1em;
+  } @else if $size == 18 {
+    font-size: 1.25em;
+  } @else if $size == 25 {
+    font-size: 1.5em;
+  }
+}
+
+p {
+  @include type-1(16);
+}
+
+@mixin d($device) {
+	@if $device == m {
+		@media (max-width: 300px) {
+			@content;
+		}
+	}
+	@else if $device == t {
+		@media (max-width: 600px) {
+			@content;
+		}
+	}
+	@else if $device == s {
+		@media (max-width: 900px) {
+			@content;
+		}
+	}
+}
+	
+div {
+	width: 100%;
+	@include d(t) {
+		width: 80%;
+	}
+	@include d(m) {
+		width: 60%;
+	}
+}
+
+div {
+	$width: 400px;
+	width: $width;
+	@if $width == 400px {
+		height: $width * 1.5;
+	} @else {
+		height: $width;
+	}
+}
+
+// mixin start
 @mixin title-large {
   font: { // nesting properties
     size: 4em;
@@ -147,6 +237,7 @@ ul {
   li {
     display: inline-block;
     list-style: none;
+    font-size: em(36);
 
     a {
       display: block;
@@ -154,12 +245,14 @@ ul {
       text-decoration: none;
       background: blue;
       color: white;
+      font-size: em(16, 36); // pega o contexto do pai, e 1em será igual 36pixels
       // .active & {  // joga o active lá pra frente de toda  seleção
       //   background: blue;
       // }
 
       &:hover {
-        background: red;
+        // background: darken(blue, 20%);
+        background: transparentize(blue, .5);
       }
     }
   }

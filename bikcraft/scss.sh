@@ -1,4 +1,4 @@
 #!/bin/bash
 echo Starting...
-sass --watch scss:css
+sass --watch css/scss:css
 

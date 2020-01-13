@@ -1,0 +1,40 @@
+// @for $i from 1 through 6 {
+//   .item-#{$i} {
+//     width: $i;
+//   }
+// } 
+
+$container: 768;
+$gutter: 20;
+$colunas: 12;
+
+@for $i from 1 through $colunas {
+	$width: $container / $colunas * $i - $gutter;
+	.grid-#{$i} {
+		width: $width + px;
+	}
+}
+
+@for $i from 1 through 16 {
+	$width: percentage(1 / $i);
+	.porcento-#{$i} {
+		width: $width;
+	}
+}
+
+$j: 1;
+
+@while $j <= 6 {
+  .type-#{$j} {
+    font-size: 16 * $j + px;
+  }
+  $j: $j + 1;
+}
+
+$lista: facebook twitter snapchat instagram;
+
+@each $item in $lista {
+	.rede-#{$item} {
+		background-image: url('../img/#{$item}.png');
+	}
+} 
