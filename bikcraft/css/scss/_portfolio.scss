@@ -11,18 +11,16 @@
 
 .quote_clientes p{
 	text-align: center;
-	font-family: Georgia, "Times New Roman", serif;
-	font-size: 18px;
-	line-height: 25px;
 	font-style: italic;
 	margin-bottom: 20px;
+	@include type-2(18);
 }
 
 .quote_clientes cite {
-	font-size: 18px;
 	font-weight: bold;
 	float: right;
 	font-style: normal;
+	@include type-1(18);
 }
 
 /*Plugin de Slide*/
@@ -36,7 +34,7 @@
 	margin: 0;
 }
 
-.rslides li, .rslides_portfolio li{
+.rslides li, .rslides_portfolio li {
 	-webkit-backface-visibility: hidden;
 	position: absolute;
 	display: none;
@@ -80,6 +78,6 @@
 }
 
 .rslides_tabs li a:hover, .rslides_tabs li.rslides_here a {
-	background: #fec63e;
-	color: #fec63e;
+	background: $cor-primaria;
+	color: $cor-primaria;
 }
