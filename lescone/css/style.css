@@ -1,0 +1,26 @@
+body {
+  padding: 0px;
+  margin: 0px;
+}
+
+.container {
+  width: 1200px;
+  margin: 0 auto;
+  background: blue;
+}
+.container::after, .container::before {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.grid-3 {
+  width: 280px;
+  background: rgba(0, 0, 0, 0.5);
+  margin-left: 10px;
+  margin-right: 10px;
+  color: white;
+  float: left;
+}
+
+/*# sourceMappingURL=style.css.map */
