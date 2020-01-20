@@ -1,10 +1,162 @@
-body {
+// Variables's grid
+$cols: 12;
+$gutter: 20px;
+$l-device: 1200px;
+$m-device: 760px;
+$s-device: 480px;
+
+// Box-sizing
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+/* 
+border-box
+width: 200px;
+padding: 20px
+a largura total vai ser sempre 200px;
+*/
+
+// Mixin's media-querie
+
+@mixin d($size) {
+  @if $size == l {
+    @media screen and (min-width: #{$l-device}) {
+      @content;
+    }
+  } @else if $size == m {
+    @media screen and (min-width: #{$m-device}) and (max-width: #{$l-device - 1}) {
+      @content;
+    } 
+  } @else if $size == s {
+    @media screen and (max-width: #{$m-device - 1}) {
+      @content;
+    }
+  }
+}
+
+// p {
+//   color: blue;
+//   @include d(m) {
+//     color: pink;
+//   }
+//   @include d(s) {
+//     color: greenyellow;
+//   }
+// }
+// offset dá uma margem do tamanho total de uma coluna inteira
+// grid's function
+@function grid($col, $offset: false) {
+  $width: $col / $cols * 100 + '%';
+  $result: calc(#{$width} - #{$gutter});
+  @if $offset == offset {
+    $gutter: $gutter / 2;
+    $result: calc(#{$width} + #{$gutter});
+  }
+  @return $result;
+}
+
+// div { //posso usar grid direto no css
+//   width: grid(6);
+// }
+
+// Generate grid class
+@for $i from 1 through $cols {
+  .grid-#{$i} {
+    width: grid($i);
+  }
+}
+
+// Structure grid mixin
+@mixin grid-structure {
+  float: left;
+  min-height: 1px;
+  margin-left: $gutter / 2;
+  margin-right: $gutter / 2;
+
+  @include d(s) {
+    width: 100%;
+    float: none;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+}
+
+//seletor - '^', vai selecionar todos itens que começam com o valor entre aspas
+// ele substitui aquele seletor: grid-1, grid-2, ....  economiza bytes
+[class^="grid-"] {
+  @include grid-structure;
+}
+
+// Generate grid class of offset
+@for $i from 1 through $cols {
+  .offset-#{$i} {
+    margin-left: grid($i, offset);
+    @extend %offset;
+  }
+}
+
+@include d(s) {
+  %offset {
+    margin-left: 0px;
+  }
+}
+
+// Clearfix mixin
+@mixin clearfix {
+  &::after, &::before {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin container {
+  max-width: $l-device;
+  margin: 0px auto; //sempre centralizado
+  position: relative;
+  @include d(m) {
+    max-width: $m-device;
+  }
+  @include d(s) {
+    max-width: $s-device;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  @include clearfix;
+}
+
+.container {
+  @include container;
+}
+
+@mixin row {
+  position: relative;
+  margin-left: -$gutter/2;
+  margin-right: -$gutter/2;
+  @include d(s) {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  @include clearfix;
+}
+
+.row {
+  @include row;
+}
+
+// div {
+//   background: rgba(0, 0, 0, .4);
+//   min-height: 40px !important;
+//   margin-bottom: 20px;
+// }
+
+/* body {
   padding: 0px;
   margin: 0px;
 }
 
 .container {
-  width: 1200px;
+  max-width: 1200px;
   margin:  0 auto;
   background: blue;
   &::after, &::before { // clear fix
@@ -14,11 +166,16 @@ body {
   }
 }
 
+// porcentagem em margem é ruim, pois sua tela for diminuindo,
+// sua margem também irá diminuir. Melhor solução é utilizar
+// a função de css 'calc()'
+
+
 .grid-3 {
-  width: 280px;
+  width: calc(25% - 20px);
   background: rgba(0,0,0,.5);
   margin-left: 10px;
   margin-right: 10px;
   color: white;
   float: left;
-}
+} */
